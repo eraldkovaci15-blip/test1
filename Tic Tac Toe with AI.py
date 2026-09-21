@@ -59,56 +59,31 @@ def display_matrix(matrix):
     print()
 
 
-def user_winner(matrix, user_operator):
+def the_winner(matrix, operator):
     for row in range(3):
-        if (matrix[row][0] == the_operator_playing[user_operator] and
-            matrix[row][1] == the_operator_playing[user_operator] and
-            matrix[row][2] == the_operator_playing[user_operator]):
+        if (matrix[row][0] == the_operator_playing[operator] and
+            matrix[row][1] == the_operator_playing[operator] and
+            matrix[row][2] == the_operator_playing[operator]):
             return True
 
     for column in range(3):
-        if (matrix[0][column] == the_operator_playing[user_operator] and
-            matrix[1][column] == the_operator_playing[user_operator] and
-            matrix[2][column] == the_operator_playing[user_operator]):
+        if (matrix[0][column] == the_operator_playing[operator] and
+            matrix[1][column] == the_operator_playing[operator] and
+            matrix[2][column] == the_operator_playing[operator]):
             return True
 
-    if (matrix[0][0] == the_operator_playing[user_operator] and
-        matrix[1][1] == the_operator_playing[user_operator] and
-        matrix[2][2] == the_operator_playing[user_operator]):
+    if (matrix[0][0] == the_operator_playing[operator] and
+        matrix[1][1] == the_operator_playing[operator] and
+        matrix[2][2] == the_operator_playing[operator]):
         return True
 
-    if (matrix[0][2] == the_operator_playing[user_operator] and
-        matrix[1][1] == the_operator_playing[user_operator] and
-        matrix[2][0] == the_operator_playing[user_operator]):
+    if (matrix[0][2] == the_operator_playing[operator] and
+        matrix[1][1] == the_operator_playing[operator] and
+        matrix[2][0] == the_operator_playing[operator]):
         return True
 
     return False
 
-
-def computer_winner(matrix, computer_operator):
-    for row in range(3):
-        if (matrix[row][0] == the_operator_playing[computer_operator] and
-            matrix[row][1] == the_operator_playing[computer_operator] and
-            matrix[row][2] == the_operator_playing[computer_operator]):
-            return True
-
-    for column in range(3):
-        if (matrix[0][column] == the_operator_playing[computer_operator] and
-            matrix[1][column] == the_operator_playing[computer_operator] and
-            matrix[2][column] == the_operator_playing[computer_operator]):
-            return True
-
-    if (matrix[0][0] == the_operator_playing[computer_operator] and
-        matrix[1][1] == the_operator_playing[computer_operator] and
-        matrix[2][2] == the_operator_playing[computer_operator]):
-        return True
-
-    if (matrix[0][2] == the_operator_playing[computer_operator] and
-        matrix[1][1] == the_operator_playing[computer_operator] and
-        matrix[2][0] == the_operator_playing[computer_operator]):
-        return True
-
-    return False
 
 
 def board_is_full(matrix):
@@ -131,12 +106,12 @@ def continue_to_play():
 
         print("Please enter y or n.")
 
-
+#main
 user_wins = 0
 computer_wins = 0
 
 the_operator_playing = {
-    'x': '❌',
+    'x': '✖',
     'o': '⭕'
 }
 
@@ -153,7 +128,7 @@ while True:
     computer_operator = computer_choice_operator(user_operator)
 
     while True:
-
+        #user
         user_row, user_column = user_choice_position()
 
         if place_is_taken(user_row, user_column, matrix):
@@ -166,43 +141,45 @@ while True:
 
         time.sleep(0.7)
 
-        if user_winner(matrix, user_operator):
+        if the_winner(matrix, user_operator):
             print("You are the winner!")
             user_wins += 1
             break
 
         if board_is_full(matrix):
-            print("Tie!")
+            print("Tie")
             break
-
+        
+         #computer
         print("Computer is thinking...")
-
+        
         time.sleep(1)
-
+        
         computer_row, computer_column = computer_choice_position(matrix)
-
+        
         print(
-            f"Computer chose: "
-            f"row {computer_row + 1}, "
-            f"column {computer_column + 1}"
-        )
-
+        f"Computer chose: "
+        f"row {computer_row + 1}, "
+        f"column {computer_column + 1}"
+            )
+        
         time.sleep(0.5)
-
+        
         matrix[computer_row][computer_column] = the_operator_playing[computer_operator]
-
+        
         display_matrix(matrix)
-
+        
         time.sleep(0.5)
 
-        if computer_winner(matrix, computer_operator):
+        if the_winner(matrix, computer_operator):
             print("Computer is the winner!")
             computer_wins += 1
             break
 
         if board_is_full(matrix):
-            print("Tie!")
+            print("Tie")
             break
+        
 
     print(f"You: {user_wins} | Computer: {computer_wins}")
 
